@@ -1,0 +1,74 @@
+<resources>
+
+    // ConvertFragment
+    <string name="error_enter_amount">Enter amount first</string>
+    <string name="error_invalid_number">Invalid number format</string>
+    <string name="error_select_currencies">Select currencies</string>
+    <string name="error_rate_from">Rate error (From currency)</string>
+    <string name="toast_swapped">Currencies Swapped!</string>
+
+    // HomeFragment
+    <string name="last_updated">Last Updated: %1$s</string>
+    <string name="last_updated_unavailable">Last Updated: Time unavailable.</string>
+
+    // activity_main
+    <string name="app_name">Currency Convertor</string>
+    <string name="back_button">Back</string>
+    <string name="back_button_description">Navigate back</string>
+
+    // fragment_convert
+    <string name="convert_currency_label">Convert a Currency</string>
+    <string name="enter_amount_hint">Enter Amount</string>
+    <string name="from_label">From</string>
+    <string name="swap_currencies_desc">Swap currencies</string>
+    <string name="to_label">To</string>
+    <string name="convert_button">Convert</string>
+    <string name="result_label">Result:</string>
+    <string name="converted_amount_hint">Converted Amount</string>
+
+    <string name="clear_button_label">Clear</string>
+    <color name="clear_red">#FF4444</color>
+
+    // fragment_home
+    <string name="currency_search_label">Currency Search</string>
+    <string name="main_currency_exchange_rates_label">Main Currency Exchange Rates</string>
+    <string name="all_currency_exchange_rates_label">All Currency Exchange Rates</string>
+
+    // fragment_search
+    <string name="search_currency_hint">Search currency or country</string>
+    <string name="search_button_label">Search</string>
+    <string name="invalid_currency_message">Enter a valid currency or country!</string>
+    <string name="clear_search_button">Clear Search</string>
+
+    // item_currency
+    <string name="base_currency_label">1 GBP =\u0020</string>
+    <string name="flag_description">flag description </string>
+
+    // item_currency_spinner
+    <string name="currency_flag_description">Currency Flag</string>
+    <string name="default_currency_code">CUR</string>
+
+    // land/activity_main.xml
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</resources>

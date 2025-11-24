@@ -1,0 +1,144 @@
+package org.me.gcu.todd_ross_s1933591;
+
+import android.content.Context;
+import android.graphics.Color;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
+public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
+
+    private static final int LIST_ITEM_LAYOUT = R.layout.item_currency;
+    private static final int SPINNER_ITEM_LAYOUT = R.layout.item_currency_spinner;
+
+    private final int listLayoutId;
+    private int spinnerLayoutId = SPINNER_ITEM_LAYOUT;
+
+    public CurrencyAdapter(@NonNull Context context, @NonNull List<CurrencyRate> rates) {
+        super(context, LIST_ITEM_LAYOUT, rates);
+        this.listLayoutId = LIST_ITEM_LAYOUT;
+    }
+
+    @Override
+    public void setDropDownViewResource(int resource) {
+        this.spinnerLayoutId = resource;
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        if (parent instanceof ListView) {
+            return getCurrencyListItemView(position, convertView, parent);
+        } else {
+            return getSpinnerItemView(position, convertView, parent);
+        }
+    }
+
+    @Override
+    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return getSpinnerItemView(position, convertView, parent);
+    }
+
+    private static class CurrencyListItemHolder {
+        ImageView flagImage;
+        TextView titleText;
+        TextView rateText;
+        TextView staticLabel;
+        Button strengthButton;   // NEW BUTTON
+    }
+
+    private View getCurrencyListItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        CurrencyRate rate = getItem(position);
+        CurrencyListItemHolder holder;
+
+        if (convertView == null || convertView.findViewById(R.id.titleTextView) == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(listLayoutId, parent, false);
+
+            holder = new CurrencyListItemHolder();
+            holder.flagImage = convertView.findViewById(R.id.img_flag);
+            holder.titleText = convertView.findViewById(R.id.titleTextView);
+            holder.rateText = convertView.findViewById(R.id.rateValueTextView);
+            holder.staticLabel = convertView.findViewById(R.id.staticRateLabel);
+            holder.strengthButton = convertView.findViewById(R.id.strengthButton); // bind the button
+
+            convertView.setTag(holder);
+        } else {
+            holder = (CurrencyListItemHolder) convertView.getTag();
+        }
+
+        if (rate != null) {
+            holder.titleText.setText(rate.getTitle());
+            holder.staticLabel.setText(R.string.base_currency_label);
+
+            NumberFormat nf = NumberFormat.getNumberInstance(Locale.getDefault());
+            nf.setMinimumFractionDigits(2);
+            nf.setMaximumFractionDigits(2);
+            holder.rateText.setText(nf.format(rate.getRate()));
+
+            // Set flag
+            holder.flagImage.setImageResource(CurrencyFlagMap.getFlagResource(rate.getCurrencyCode()));
+
+            // Strength label
+            String strengthLabel = RateColorHelper.getStrengthLabel(rate.getRate());
+            holder.strengthButton.setText(strengthLabel);
+
+            // Strength color
+            int colorRes = RateColorHelper.getColorForRate(rate.getRate());
+            holder.strengthButton.setBackgroundTintList(
+                    ContextCompat.getColorStateList(getContext(), colorRes)
+            );
+            holder.strengthButton.setTextColor(Color.WHITE);
+
+            // Do NOT color the currency text anymore — removed the old code
+
+            // Click to navigate
+            holder.strengthButton.setOnClickListener(v -> {
+                if (getContext() instanceof MainActivity) {
+                    ((MainActivity) getContext()).navigateToConverter(rate);
+                }
+            });
+        }
+
+        return convertView;
+    }
+
+    private static class SimpleViewHolder {
+        ImageView flagImage;
+        TextView codeText;
+    }
+
+    private View getSpinnerItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        CurrencyRate rate = getItem(position);
+        SimpleViewHolder holder;
+
+        if (convertView == null || convertView.findViewById(R.id.text_currency_code) == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(spinnerLayoutId, parent, false);
+            holder = new SimpleViewHolder();
+            holder.flagImage = convertView.findViewById(R.id.image_flag);
+            holder.codeText = convertView.findViewById(R.id.text_currency_code);
+            convertView.setTag(holder);
+        } else {
+            holder = (SimpleViewHolder) convertView.getTag();
+        }
+
+        if (rate != null) {
+            holder.codeText.setText(rate.getCurrencyCode());
+            holder.flagImage.setImageResource(CurrencyFlagMap.getFlagResource(rate.getCurrencyCode()));
+        }
+
+        return convertView;
+    }
+}

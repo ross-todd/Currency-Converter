@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".HomeFragment">
+
+    <!-- Left Column: Search + Main Currencies -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <!-- Last Updated TextView -->
+        <TextView
+            android:id="@+id/updateTimeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="italic"
+            android:paddingBottom="4dp" />
+
+        <!-- Search Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/currency_search_label"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            tools:ignore="RtlSymmetry" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            tools:ignore="MissingClass" />
+
+        <!-- Main Currencies Section -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/main_currency_exchange_rates_label"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="4dp" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_main_curr"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:ignore="NestedWeights" />
+
+    </LinearLayout>
+
+    <!-- Right Column: All Currencies -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all_currency_exchange_rates_label"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="4dp" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/container_all_curr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="MissingClass" />
+    </LinearLayout>
+
+</LinearLayout>

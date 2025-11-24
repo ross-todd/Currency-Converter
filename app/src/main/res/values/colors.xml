@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#BB86FC</color>
+
+    <color name="purple_500">#6200EE</color>
+
+    <color name="purple_700">#3700B3</color>
+
+    <color name="teal_200">#03DAC5</color>
+
+    <color name="teal_700">#018786</color>
+
+    <color name="black">#000000</color>
+
+    <color name="white">#FFFFFF</color>
+
+    <color name="app_bar_blue">#000080</color>
+
+    <color name="status_bar_blue">#000080</color>
+
+    <color name="rate_very_strong">#1976D2</color>
+
+    <color name="rate_strong">#1B5E20</color>
+
+    <color name="rate_weak">#FF9800</color>
+
+    <color name="rate_very_weak">#D32F2F</color>
+
+    <color name="spinner_dropdown_background">#000000</color>
+
+    <color name="divider_gray">#EEEEEE</color>
+
+    <color name="google_yellow">#F4B400</color>
+
+    <color name="hint_gray">#757575</color>
+
+    <color name="medium_gray_background">#BBBBBB</color>
+</resources>
