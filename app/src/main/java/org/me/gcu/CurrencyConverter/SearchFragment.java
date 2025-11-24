@@ -24,7 +24,7 @@ public class SearchFragment extends Fragment {
 
     private static final String KEY_QUERY = "searchQuery";
     private static final String KEY_ACTIVE = "searchActive";
-    private static final String KEY_RESULTS = "searchResults"; // Key for saving the filtered list
+    private static final String KEY_RESULTS = "searchResults";
 
     private EditText searchInput;
     private MaterialButton searchButton;
@@ -63,10 +63,11 @@ public class SearchFragment extends Fragment {
             // 1. Restore the query input
             searchInput.setText(savedQuery);
 
-            // 2. Restore the filtered list (requires casting the Serializable ArrayList)
-            ArrayList<CurrencyRate> savedResults = (ArrayList<CurrencyRate>) savedInstanceState.getSerializable(KEY_RESULTS);
+            // 2. Restore the filtered list
+            ArrayList<CurrencyRate> savedResults =
+                    (ArrayList<CurrencyRate>) savedInstanceState.getSerializable(KEY_RESULTS);
 
-            // 3. Update the adapter and button state if search was active
+            // 3A. Restore CLEAR state if active
             if (isSearchActive && savedResults != null) {
                 resultsAdapter.addAll(savedResults);
                 resultsUiContainer.setVisibility(View.VISIBLE);
@@ -77,13 +78,24 @@ public class SearchFragment extends Fragment {
                     noResultsText.setVisibility(View.GONE);
                 }
 
-                // Restore button appearance
+                // Restore CLEAR button appearance
                 searchButton.setText(R.string.clear_button_label);
                 searchButton.setBackgroundTintList(
                         ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
             }
+            // 3B. 🔥 FIX: Restore SEARCH state if NOT active
+            else {
+                searchButton.setText(R.string.search_button_label);
+                searchButton.setBackgroundTintList(
+                        ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
+
+                // Ensure results UI hidden if not active
+                resultsUiContainer.setVisibility(View.GONE);
+                noResultsText.setVisibility(View.GONE);
+            }
         }
-        // --- END: STATE RESTORATION LOGIC ---
+// --- END: STATE RESTORATION LOGIC ---
+
 
 
         // Fetch currency data
@@ -155,7 +167,7 @@ public class SearchFragment extends Fragment {
 
             // Change color back to original
             searchButton.setBackgroundTintList(
-                    ContextCompat.getColorStateList(requireContext(), R.color.google_yellow));
+                    ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
 
             isSearchActive = false;
         }
@@ -212,6 +224,7 @@ public class SearchFragment extends Fragment {
         resultsAdapter.notifyDataSetChanged();
         resultsUiContainer.setVisibility(View.GONE);
         noResultsText.setVisibility(View.GONE);
+
     }
 
     // Clears the fragment's view references to prevent memory leaks when the view is destroyed.
