@@ -1,4 +1,4 @@
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,15 +12,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat; // Needed for changing button color
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import com.google.android.material.button.MaterialButton; // Import MaterialButton if used in XML
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
+
+    private static final String KEY_QUERY = "searchQuery";
+    private static final String KEY_ACTIVE = "searchActive";
+    private static final String KEY_RESULTS = "searchResults"; // Key for saving the filtered list
 
     private EditText searchInput;
     private MaterialButton searchButton;
@@ -51,6 +55,37 @@ public class SearchFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(CurrencyViewModel.class);
 
+        // --- START: STATE RESTORATION LOGIC ---
+        if (savedInstanceState != null) {
+            isSearchActive = savedInstanceState.getBoolean(KEY_ACTIVE, false);
+            String savedQuery = savedInstanceState.getString(KEY_QUERY, "");
+
+            // 1. Restore the query input
+            searchInput.setText(savedQuery);
+
+            // 2. Restore the filtered list (requires casting the Serializable ArrayList)
+            ArrayList<CurrencyRate> savedResults = (ArrayList<CurrencyRate>) savedInstanceState.getSerializable(KEY_RESULTS);
+
+            // 3. Update the adapter and button state if search was active
+            if (isSearchActive && savedResults != null) {
+                resultsAdapter.addAll(savedResults);
+                resultsUiContainer.setVisibility(View.VISIBLE);
+
+                if (savedResults.isEmpty()) {
+                    noResultsText.setVisibility(View.VISIBLE);
+                } else {
+                    noResultsText.setVisibility(View.GONE);
+                }
+
+                // Restore button appearance
+                searchButton.setText(R.string.clear_button_label);
+                searchButton.setBackgroundTintList(
+                        ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
+            }
+        }
+        // --- END: STATE RESTORATION LOGIC ---
+
+
         // Fetch currency data
         viewModel.fetchData(() -> {
             if (!isAdded()) return;
@@ -58,14 +93,44 @@ public class SearchFragment extends Fragment {
             if (rates == null) return;
             currentRates.clear();
             currentRates.addAll(rates);
+
+            // If we are restoring state, we might need to re-execute search if currency data changed.
+            // For simplicity here, we only ensure the list is loaded.
         });
 
         // --- DUAL-FUNCTION BUTTON LISTENER ---
         searchButton.setOnClickListener(v -> handleSearchClearClick());
 
-        resultsUiContainer.setVisibility(View.GONE); // Hide results initially
+        // Only hide if we are not restoring state, otherwise the restoration logic above handles visibility
+        if (savedInstanceState == null) {
+            resultsUiContainer.setVisibility(View.GONE);
+        }
+
         return view;
     }
+
+    // --- START: STATE SAVING LOGIC ---
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // 1. Save the input query
+        outState.putString(KEY_QUERY, searchInput.getText().toString());
+
+        // 2. Save the search active status
+        outState.putBoolean(KEY_ACTIVE, isSearchActive);
+
+        // 3. Save the current results displayed in the adapter
+        if (resultsAdapter != null && isSearchActive) {
+            // Need a copy of the list inside the adapter for saving
+            ArrayList<CurrencyRate> resultsToSave = new ArrayList<>();
+            for (int i = 0; i < resultsAdapter.getCount(); i++) {
+                resultsToSave.add(resultsAdapter.getItem(i));
+            }
+            outState.putSerializable(KEY_RESULTS, resultsToSave);
+        }
+    }
+    // --- END: STATE SAVING LOGIC ---
 
     // Handles the combined Search/Clear logic
     private void handleSearchClearClick() {
@@ -102,7 +167,7 @@ public class SearchFragment extends Fragment {
         List<CurrencyRate> filteredList = new ArrayList<>();
 
         if (query.isEmpty()) {
-            // Treat empty query as needing a clear state (though the button will remain 'Search' for now)
+            // Treat empty query as needing a clear state
             resultsAdapter.clear();
             resultsAdapter.notifyDataSetChanged();
             resultsUiContainer.setVisibility(View.GONE);
@@ -112,6 +177,7 @@ public class SearchFragment extends Fragment {
 
         // Filter currencies that match the query
         for (CurrencyRate rate : currentRates) {
+            // NOTE: CurrencyRate must implement Serializable for this to work correctly
             String combinedData = (rate.getTitle() + " " + rate.getCurrencyCode()).toLowerCase();
             if (combinedData.contains(query)) {
                 filteredList.add(rate);
@@ -148,10 +214,10 @@ public class SearchFragment extends Fragment {
         noResultsText.setVisibility(View.GONE);
     }
 
+    // Clears the fragment's view references to prevent memory leaks when the view is destroyed.
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Nullify view references for cleanup
         searchInput = null;
         searchButton = null;
         resultsUiContainer = null;

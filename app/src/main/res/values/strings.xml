@@ -25,9 +25,10 @@
     <string name="convert_button">Convert</string>
     <string name="result_label">Result:</string>
     <string name="converted_amount_hint">Converted Amount</string>
-
     <string name="clear_button_label">Clear</string>
-    <color name="clear_red">#FF4444</color>
+    <string name="from_convert_flag">From_Flag</string>
+    <string name="to_convert_flag">To_Flag</string>
+
 
     // fragment_home
     <string name="currency_search_label">Currency Search</string>

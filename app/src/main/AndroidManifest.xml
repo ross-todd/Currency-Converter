@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.me.gcu.todd_ross_s1933591">
+    package="org.me.gcu.CurrencyConverter">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:usesCleartextTraffic="true"
@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CurrencyConvertor">
         <activity
-            android:name="org.me.gcu.todd_ross_s1933591.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name="org.me.gcu.CurrencyConverter.MainActivity"
+            android:exported="true"
+            > <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
     </application>
 </manifest>

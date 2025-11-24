@@ -3,13 +3,14 @@ plugins {
 }
 
 android {
-    namespace = "org.me.gcu.todd_ross_s1933591"
+    namespace = "org.me.gcu.CurrencyConverter"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "org.me.gcu.todd_ross_s1933591"
+        applicationId = "org.me.gcu.CurrencyConverter"
         minSdk = 26
         targetSdk = 36
+
         versionCode = 1
         versionName = "1.0"
 

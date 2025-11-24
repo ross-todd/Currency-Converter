@@ -1,4 +1,4 @@
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import org.junit.Test;
 

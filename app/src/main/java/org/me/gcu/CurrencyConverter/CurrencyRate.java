@@ -1,7 +1,8 @@
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class CurrencyRate implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +39,7 @@ public class CurrencyRate implements Serializable {
         return currencyCode;
     }
 
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
+    public String getCurrencyName() { return title; }
 
     // Setters
     public void setTitle(String title) {

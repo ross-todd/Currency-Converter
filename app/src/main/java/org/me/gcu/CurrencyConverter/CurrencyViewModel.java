@@ -1,4 +1,4 @@
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import androidx.lifecycle.ViewModel;
 import java.io.BufferedReader;
@@ -24,6 +24,19 @@ public class CurrencyViewModel extends ViewModel {
 
     public String getLastBuildTime() {
         return lastBuildTime;
+    }
+
+    public CurrencyRate getCurrencyRateByCode(String code) {
+        if (currencyRates == null || code == null) {
+            return null;
+        }
+
+        for (CurrencyRate rate : currencyRates) {
+            if (code.equalsIgnoreCase(rate.getCurrencyCode())) {
+                return rate;
+            }
+        }
+        return null;
     }
 
     // Fetch currency data in a background thread

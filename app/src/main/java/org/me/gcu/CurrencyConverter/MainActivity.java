@@ -4,7 +4,7 @@
 // Programme of Study   BSc Software Development - Mobile Platform Development
 
 
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import android.os.Bundle;
 import android.view.View;

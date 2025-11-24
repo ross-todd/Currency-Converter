@@ -1,4 +1,4 @@
-package org.me.gcu.todd_ross_s1933591;
+package org.me.gcu.CurrencyConverter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,42 +21,33 @@ import java.util.Locale;
 public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
 
     private static final int LIST_ITEM_LAYOUT = R.layout.item_currency;
-    private static final int SPINNER_ITEM_LAYOUT = R.layout.item_currency_spinner;
+    // REMOVED: private static final int SPINNER_ITEM_LAYOUT = R.layout.item_currency_spinner;
 
     private final int listLayoutId;
-    private int spinnerLayoutId = SPINNER_ITEM_LAYOUT;
+    // REMOVED: private int spinnerLayoutId = SPINNER_ITEM_LAYOUT;
 
     public CurrencyAdapter(@NonNull Context context, @NonNull List<CurrencyRate> rates) {
         super(context, LIST_ITEM_LAYOUT, rates);
         this.listLayoutId = LIST_ITEM_LAYOUT;
     }
 
-    @Override
-    public void setDropDownViewResource(int resource) {
-        this.spinnerLayoutId = resource;
-    }
+    // REMOVED: setDropDownViewResource method
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (parent instanceof ListView) {
-            return getCurrencyListItemView(position, convertView, parent);
-        } else {
-            return getSpinnerItemView(position, convertView, parent);
-        }
+        // SIMPLIFIED: Adapter only handles ListView items now
+        return getCurrencyListItemView(position, convertView, parent);
     }
 
-    @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return getSpinnerItemView(position, convertView, parent);
-    }
+    // REMOVED: getDropDownView method
 
     private static class CurrencyListItemHolder {
         ImageView flagImage;
         TextView titleText;
         TextView rateText;
         TextView staticLabel;
-        Button strengthButton;   // NEW BUTTON
+        Button strengthButton;
     }
 
     private View getCurrencyListItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -110,33 +100,6 @@ public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
                     ((MainActivity) getContext()).navigateToConverter(rate);
                 }
             });
-        }
-
-        return convertView;
-    }
-
-    private static class SimpleViewHolder {
-        ImageView flagImage;
-        TextView codeText;
-    }
-
-    private View getSpinnerItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        CurrencyRate rate = getItem(position);
-        SimpleViewHolder holder;
-
-        if (convertView == null || convertView.findViewById(R.id.text_currency_code) == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(spinnerLayoutId, parent, false);
-            holder = new SimpleViewHolder();
-            holder.flagImage = convertView.findViewById(R.id.image_flag);
-            holder.codeText = convertView.findViewById(R.id.text_currency_code);
-            convertView.setTag(holder);
-        } else {
-            holder = (SimpleViewHolder) convertView.getTag();
-        }
-
-        if (rate != null) {
-            holder.codeText.setText(rate.getCurrencyCode());
-            holder.flagImage.setImageResource(CurrencyFlagMap.getFlagResource(rate.getCurrencyCode()));
         }
 
         return convertView;

@@ -69,16 +69,33 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerFrom"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="32dp"
-            android:background="@android:drawable/btn_dropdown" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/ic_rounded_bar_background"
+            android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/imageFlagFrom"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/from_convert_flag" />
+
+            <TextView
+                android:id="@+id/textCurrencyDisplayFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
         <ImageView
             android:id="@+id/btnSwap"
             android:layout_width="50dp"
@@ -99,16 +116,33 @@
             android:textStyle="bold"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinnerTo"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="32dp"
-            android:background="@android:drawable/btn_dropdown" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/ic_rounded_bar_background"
+            android:padding="10dp">
 
+            <ImageView
+                android:id="@+id/imageFlagTo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@string/to_convert_flag" />
+
+            <TextView
+                android:id="@+id/textCurrencyDisplayTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="18sp"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConvert"
             android:layout_width="150dp"
@@ -117,8 +151,8 @@
             android:text="@string/convert_button"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:backgroundTint="@color/google_yellow"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/main_button_blue"
             app:cornerRadius="16dp"
             android:padding="12dp"/>
 
@@ -160,7 +194,7 @@
             android:padding="12dp"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:background="@drawable/ic_rounded_bar_background" />
+             />
 
         <View
             android:layout_width="match_parent"
