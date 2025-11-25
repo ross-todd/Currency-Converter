@@ -34,8 +34,10 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("BTN", R.drawable.ic_bt);
         FLAG_RESOURCES.put("BWP", R.drawable.ic_bw);
         FLAG_RESOURCES.put("BYN", R.drawable.ic_by);
+        FLAG_RESOURCES.put("BYR", R.drawable.ic_by);
         FLAG_RESOURCES.put("BZD", R.drawable.ic_bz);
         FLAG_RESOURCES.put("CAD", R.drawable.ic_ca);
+        FLAG_RESOURCES.put("CDF", R.drawable.ic_cd);
         FLAG_RESOURCES.put("CHF", R.drawable.ic_ch);
         FLAG_RESOURCES.put("CLP", R.drawable.ic_cl);
         FLAG_RESOURCES.put("CNY", R.drawable.ic_cn);
@@ -48,7 +50,9 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("DKK", R.drawable.ic_dk);
         FLAG_RESOURCES.put("DOP", R.drawable.ic_do);
         FLAG_RESOURCES.put("DZD", R.drawable.ic_dz);
+        FLAG_RESOURCES.put("EEK", R.drawable.ic_ee);
         FLAG_RESOURCES.put("EGP", R.drawable.ic_eg);
+        FLAG_RESOURCES.put("ERN", R.drawable.ic_er);
         FLAG_RESOURCES.put("ETB", R.drawable.ic_et);
         FLAG_RESOURCES.put("EUR", R.drawable.ic_eu);
         FLAG_RESOURCES.put("FJD", R.drawable.ic_fj);
@@ -70,6 +74,7 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("ILS", R.drawable.ic_il);
         FLAG_RESOURCES.put("INR", R.drawable.ic_in);
         FLAG_RESOURCES.put("IQD", R.drawable.ic_iq);
+        FLAG_RESOURCES.put("IRR", R.drawable.ic_ir);
         FLAG_RESOURCES.put("ISK", R.drawable.ic_is);
         FLAG_RESOURCES.put("JMD", R.drawable.ic_jm);
         FLAG_RESOURCES.put("JOD", R.drawable.ic_jo);
@@ -78,6 +83,7 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("KGS", R.drawable.ic_kg);
         FLAG_RESOURCES.put("KHR", R.drawable.ic_kh);
         FLAG_RESOURCES.put("KMF", R.drawable.ic_km);
+        FLAG_RESOURCES.put("KPW", R.drawable.ic_kp);
         FLAG_RESOURCES.put("KRW", R.drawable.ic_kr);
         FLAG_RESOURCES.put("KWD", R.drawable.ic_kw);
         FLAG_RESOURCES.put("KYD", R.drawable.ic_ky);
@@ -87,6 +93,8 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("LKR", R.drawable.ic_lk);
         FLAG_RESOURCES.put("LRD", R.drawable.ic_lr);
         FLAG_RESOURCES.put("LSL", R.drawable.ic_ls);
+        FLAG_RESOURCES.put("LTL", R.drawable.ic_lt);
+        FLAG_RESOURCES.put("LVL", R.drawable.ic_lv);
         FLAG_RESOURCES.put("LYD", R.drawable.ic_ly);
         FLAG_RESOURCES.put("MAD", R.drawable.ic_ma);
         FLAG_RESOURCES.put("MDL", R.drawable.ic_md);
@@ -95,7 +103,7 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("MMK", R.drawable.ic_mm);
         FLAG_RESOURCES.put("MNT", R.drawable.ic_mn);
         FLAG_RESOURCES.put("MOP", R.drawable.ic_mo);
-        FLAG_RESOURCES.put("MRU", R.drawable.ic_mr);
+        FLAG_RESOURCES.put("MRO", R.drawable.ic_mr);
         FLAG_RESOURCES.put("MUR", R.drawable.ic_mu);
         FLAG_RESOURCES.put("MVR", R.drawable.ic_mv);
         FLAG_RESOURCES.put("MWK", R.drawable.ic_mw);
@@ -128,12 +136,15 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("SEK", R.drawable.ic_se);
         FLAG_RESOURCES.put("SGD", R.drawable.ic_sg);
         FLAG_RESOURCES.put("SHP", R.drawable.ic_sh);
+        FLAG_RESOURCES.put("SKK", R.drawable.ic_sk);
         FLAG_RESOURCES.put("SLL", R.drawable.ic_sl);
         FLAG_RESOURCES.put("SOS", R.drawable.ic_so);
         FLAG_RESOURCES.put("SRD", R.drawable.ic_sr);
         FLAG_RESOURCES.put("SSP", R.drawable.ic_ss);
+        FLAG_RESOURCES.put("STD", R.drawable.ic_st);
         FLAG_RESOURCES.put("STN", R.drawable.ic_st);
         FLAG_RESOURCES.put("SVC", R.drawable.ic_sv);
+        FLAG_RESOURCES.put("SYP", R.drawable.ic_sy);
         FLAG_RESOURCES.put("SZL", R.drawable.ic_sz);
         FLAG_RESOURCES.put("THB", R.drawable.ic_th);
         FLAG_RESOURCES.put("TJS", R.drawable.ic_tj);
@@ -149,16 +160,19 @@ public class CurrencyFlagMap {
         FLAG_RESOURCES.put("USD", R.drawable.ic_us);
         FLAG_RESOURCES.put("UYU", R.drawable.ic_uy);
         FLAG_RESOURCES.put("UZS", R.drawable.ic_uz);
+        FLAG_RESOURCES.put("VEF", R.drawable.ic_ve);
         FLAG_RESOURCES.put("VND", R.drawable.ic_vn);
         FLAG_RESOURCES.put("VUV", R.drawable.ic_vu);
         FLAG_RESOURCES.put("WST", R.drawable.ic_ws);
         FLAG_RESOURCES.put("XAF", R.drawable.ic_cm);
         FLAG_RESOURCES.put("XCD", R.drawable.ic_ag);
         FLAG_RESOURCES.put("XOF", R.drawable.ic_bj);
+        FLAG_RESOURCES.put("XPF", R.drawable.ic_pf);
         FLAG_RESOURCES.put("YER", R.drawable.ic_ye);
         FLAG_RESOURCES.put("ZAR", R.drawable.ic_za);
+        FLAG_RESOURCES.put("ZMK", R.drawable.ic_zm);
         FLAG_RESOURCES.put("ZMW", R.drawable.ic_zm);
-        FLAG_RESOURCES.put("ZWL", R.drawable.ic_zw);
+        FLAG_RESOURCES.put("ZWD", R.drawable.ic_zw);
 
         // Default fallback
         FLAG_RESOURCES.put("DEFAULT", R.drawable.ic_gb);

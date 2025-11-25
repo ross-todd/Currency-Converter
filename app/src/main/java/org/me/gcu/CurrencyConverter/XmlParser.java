@@ -7,7 +7,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-// Parses XML currency feed and returns a list of CurrencyRate objects
+// Parses XML currency feed and returns a list of Currency rate objects
 public class XmlParser {
 
     private static final String TAG = "XmlParser";

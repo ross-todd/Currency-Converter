@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-// Displays a progress bar layout while data is being fetched
+// Displays a progress bar layout while data is being fetched for home screen
 public class ProgressBarFragment extends Fragment {
     @Nullable
     @Override

@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
@@ -39,7 +40,6 @@ public class SearchFragment extends Fragment {
     // Search button becomes clear button after search
     private boolean isSearchActive = false;
 
-    // Called to create the fragment's UI layout
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -56,47 +56,30 @@ public class SearchFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(CurrencyViewModel.class);
 
-        // To start restoring values on configuration change
         if (savedInstanceState != null) {
             isSearchActive = savedInstanceState.getBoolean(KEY_ACTIVE, false);
             String savedQuery = savedInstanceState.getString(KEY_QUERY, "");
-
-            // Restore the query input
             searchInput.setText(savedQuery);
 
-            // Restore the filtered list
             ArrayList<CurrencyRate> savedResults =
                     (ArrayList<CurrencyRate>) savedInstanceState.getSerializable(KEY_RESULTS);
 
-            // Restore CLEAR state if active
             if (isSearchActive && savedResults != null) {
                 resultsAdapter.addAll(savedResults);
                 resultsUiContainer.setVisibility(View.VISIBLE);
+                noResultsText.setVisibility(savedResults.isEmpty() ? View.VISIBLE : View.GONE);
 
-                if (savedResults.isEmpty()) {
-                    noResultsText.setVisibility(View.VISIBLE);
-                } else {
-                    noResultsText.setVisibility(View.GONE);
-                }
-
-                // Restore CLEAR button appearance
                 searchButton.setText(R.string.clear_button_label);
                 searchButton.setBackgroundTintList(
                         ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
-            }
-            //  Restore search state if not active
-            else {
+            } else {
                 searchButton.setText(R.string.search_button_label);
                 searchButton.setBackgroundTintList(
                         ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
-
-                // Ensure results UI hidden if not active
                 resultsUiContainer.setVisibility(View.GONE);
                 noResultsText.setVisibility(View.GONE);
             }
         }
-
-
 
         // Fetch currency data
         viewModel.fetchData(() -> {
@@ -110,7 +93,6 @@ public class SearchFragment extends Fragment {
         // Duel function button listener
         searchButton.setOnClickListener(v -> handleSearchClearClick());
 
-        // Only hide if we are not restoring state, otherwise the restoration logic above handles visibility
         if (savedInstanceState == null) {
             resultsUiContainer.setVisibility(View.GONE);
         }
@@ -118,18 +100,12 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    // To save instance state
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        // Save the input query
         outState.putString(KEY_QUERY, searchInput.getText().toString());
-
-        // Save the search active status
         outState.putBoolean(KEY_ACTIVE, isSearchActive);
 
-        // Save the current results displayed in the adapter
         if (resultsAdapter != null && isSearchActive) {
             ArrayList<CurrencyRate> resultsToSave = new ArrayList<>();
             for (int i = 0; i < resultsAdapter.getCount(); i++) {
@@ -139,70 +115,60 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    // Handles the combined Search/Clear logic
     private void handleSearchClearClick() {
         if (!isSearchActive) {
             executeSearch();
-
-            // Update button to CLEAR state
             searchButton.setText(R.string.clear_button_label);
-
-            // Change color to indicate clear action
             searchButton.setBackgroundTintList(
                     ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
-
             isSearchActive = true;
         } else {
-            // Clear action
             clearSearch();
-
-            // Change back to Search button state
             searchButton.setText(R.string.search_button_label);
-
-            // Change color back to original
             searchButton.setBackgroundTintList(
                     ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
-
             isSearchActive = false;
         }
     }
 
-    // Executes search filtering and updates UI
+    // --- SEARCH FUNCTION INCORPORATING ALIAS MAP ---
     private void executeSearch() {
-        String query = searchInput.getText().toString().toLowerCase().trim();
+        String query = searchInput.getText().toString().trim();
         List<CurrencyRate> filteredList = new ArrayList<>();
+        Map<String, String> aliasMap = CurrencyAliasMap.ALIAS_TO_ISO;
 
         if (query.isEmpty()) {
-            // Treat empty query as needing a clear state
-            resultsAdapter.clear();
-            resultsAdapter.notifyDataSetChanged();
-            resultsUiContainer.setVisibility(View.GONE);
-            noResultsText.setVisibility(View.GONE);
+            clearSearch();
             return;
         }
 
-        // Filter currencies that match the query
-        for (CurrencyRate rate : currentRates) {
-            String combinedData = (rate.getTitle() + " " + rate.getCurrencyCode()).toLowerCase();
-            if (combinedData.contains(query)) {
-                filteredList.add(rate);
+        // Look for alias match (case-insensitive)
+        String matchedIso = null;
+        for (String alias : aliasMap.keySet()) {
+            if (alias.equalsIgnoreCase(query)) {
+                matchedIso = aliasMap.get(alias);
+                break;
             }
         }
 
+        // If a match is found, filter the current rates
+        if (matchedIso != null) {
+            for (CurrencyRate rate : currentRates) {
+                if (rate.getCurrencyCode().equalsIgnoreCase(matchedIso)) {
+                    filteredList.add(rate);
+                }
+            }
+        }
+
+        // Update adapter & UI
         resultsAdapter.clear();
         resultsAdapter.addAll(filteredList);
         resultsAdapter.notifyDataSetChanged();
 
-        // Show message if no results or display filtered list
-        if (filteredList.isEmpty()) {
-            noResultsText.setVisibility(View.VISIBLE);
-        } else {
-            noResultsText.setVisibility(View.GONE);
-        }
-
+        noResultsText.setVisibility(filteredList.isEmpty() ? View.VISIBLE : View.GONE);
         resultsUiContainer.setVisibility(View.VISIBLE);
 
-        // Hide keyboard after search
+        // Hide keyboard
         InputMethodManager imm = (InputMethodManager) requireActivity()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
@@ -210,17 +176,14 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    // Clears search input and hides results
     private void clearSearch() {
         searchInput.setText("");
         resultsAdapter.clear();
         resultsAdapter.notifyDataSetChanged();
         resultsUiContainer.setVisibility(View.GONE);
         noResultsText.setVisibility(View.GONE);
-
     }
 
-    // Clears the fragment's view references to prevent memory leaks when the view is destroyed.
     @Override
     public void onDestroyView() {
         super.onDestroyView();

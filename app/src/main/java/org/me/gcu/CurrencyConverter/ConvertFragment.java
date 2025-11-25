@@ -99,7 +99,6 @@ public class ConvertFragment extends Fragment {
             if (isAdded()) {
                 List<CurrencyRate> currencyList = currencyViewModel.getCurrencyRates();
                 if (currencyList != null && !currencyList.isEmpty()) {
-                    // IMPORTANT: Pass the restoration status to prevent clearing the restored result
                     setupCurrencyDisplay(isRestoringState);
 
                     btnConvert.setEnabled(true);

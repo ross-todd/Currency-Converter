@@ -51,7 +51,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             tools:ignore="UnknownId,MissingClass"
-            android:name="org.me.gcu.CurrencyConverter.SearchFragment" />
+            android:name="org.me.gcu.CurrencyConverter.SearchFragment"
+            tools:layout="@layout/fragment_search" />
 
         <!-- Main currency exchange rates label -->
         <TextView
@@ -87,7 +88,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            tools:ignore="VisualLintBounds" />
 
         <!-- All currency exchange fragment container -->
         <androidx.fragment.app.FragmentContainerView
@@ -97,7 +99,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            tools:ignore="UnknownId,MissingClass"
+            tools:ignore="UnknownId,MissingClass,VisualLintBounds"
             android:name="org.me.gcu.CurrencyConverter.AllCurrFragment" />
 
     </LinearLayout>

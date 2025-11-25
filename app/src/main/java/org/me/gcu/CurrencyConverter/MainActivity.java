@@ -1,9 +1,3 @@
-
-// Name                 Ross Todd
-// Student ID           S1933591
-// Programme of Study   BSc Software Development - Mobile Platform Development
-
-
 package org.me.gcu.CurrencyConverter;
 
 import android.os.Bundle;
@@ -52,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Fetch currency data and switch fragment to home screen
+        // Fetch currency data and switch fragment to home screen (This handles your initial fetch)
         viewModel.fetchData(() -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(FRAGMENT_CONTAINER_ID);
             if (currentFragment instanceof ProgressBarFragment) {

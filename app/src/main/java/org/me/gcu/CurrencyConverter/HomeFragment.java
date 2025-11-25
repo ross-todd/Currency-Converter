@@ -1,5 +1,7 @@
 package org.me.gcu.CurrencyConverter;
 
+import android.content.Context; // ADDED
+import android.content.SharedPreferences; // ADDED
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,14 +42,45 @@ public class HomeFragment extends Fragment {
             transaction.commit();
         }
 
-        // Fetch data and update UI when ready
+        // Fetch data and update UI when ready (This primarily handles the initial XML fetch)
         viewModel.fetchData(this::updateUI);
+
+        // Initial reading from SharedPreferences
+        readAndUpdateTimeFromPrefs();
     }
 
-    // Updates the last update time display
+    // ADDED: Override onResume to update the time whenever the user returns to the fragment
+    @Override
+    public void onResume() {
+        super.onResume();
+        readAndUpdateTimeFromPrefs();
+    }
+
+    // ADDED: Logic to read the LastUpdatedTime saved by the Worker
+    private void readAndUpdateTimeFromPrefs() {
+        if (getContext() == null) return;
+
+        // Get the SharedPreferences file where the Worker saved the timestamp
+        SharedPreferences prefs =
+                getContext().getSharedPreferences("CurrencyPrefs", Context.MODE_PRIVATE);
+
+        // Read the timestamp string. Use a default value if not found.
+        String savedTime = prefs.getString("LastUpdatedTime", null);
+
+        if (savedTime != null) {
+            updateTimeTextView.setText(getString(R.string.last_updated, savedTime));
+        } else {
+            // Fallback for when the worker hasn't run yet
+            updateTimeTextView.setText(R.string.last_updated_unavailable);
+        }
+    }
+
+    // Updates the last update time display (This method still handles ViewModel data)
     private void updateUI() {
+        // This is still useful if the ViewModel handles the initial fetch data
         String lastUpdate = viewModel.getLastBuildTime();
         if (lastUpdate != null && !lastUpdate.isEmpty()) {
+            // Only update the TextView if the ViewModel has a time (which happens after the initial fetch)
             updateTimeTextView.setText(getString(R.string.last_updated, lastUpdate));
         } else {
             updateTimeTextView.setText(R.string.last_updated_unavailable);

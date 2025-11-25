@@ -2,7 +2,6 @@ package org.me.gcu.CurrencyConverter;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class CurrencyRate implements Serializable {
 
     private static final long serialVersionUID = 1L;
