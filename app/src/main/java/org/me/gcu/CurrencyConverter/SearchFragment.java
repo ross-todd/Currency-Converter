@@ -39,6 +39,7 @@ public class SearchFragment extends Fragment {
     // Search button becomes clear button after search
     private boolean isSearchActive = false;
 
+    // Called to create the fragment's UI layout
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -55,19 +56,19 @@ public class SearchFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(CurrencyViewModel.class);
 
-        // --- START: STATE RESTORATION LOGIC ---
+        // To start restoring values on configuration change
         if (savedInstanceState != null) {
             isSearchActive = savedInstanceState.getBoolean(KEY_ACTIVE, false);
             String savedQuery = savedInstanceState.getString(KEY_QUERY, "");
 
-            // 1. Restore the query input
+            // Restore the query input
             searchInput.setText(savedQuery);
 
-            // 2. Restore the filtered list
+            // Restore the filtered list
             ArrayList<CurrencyRate> savedResults =
                     (ArrayList<CurrencyRate>) savedInstanceState.getSerializable(KEY_RESULTS);
 
-            // 3A. Restore CLEAR state if active
+            // Restore CLEAR state if active
             if (isSearchActive && savedResults != null) {
                 resultsAdapter.addAll(savedResults);
                 resultsUiContainer.setVisibility(View.VISIBLE);
@@ -83,7 +84,7 @@ public class SearchFragment extends Fragment {
                 searchButton.setBackgroundTintList(
                         ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
             }
-            // 3B. 🔥 FIX: Restore SEARCH state if NOT active
+            //  Restore search state if not active
             else {
                 searchButton.setText(R.string.search_button_label);
                 searchButton.setBackgroundTintList(
@@ -94,7 +95,6 @@ public class SearchFragment extends Fragment {
                 noResultsText.setVisibility(View.GONE);
             }
         }
-// --- END: STATE RESTORATION LOGIC ---
 
 
 
@@ -105,12 +105,9 @@ public class SearchFragment extends Fragment {
             if (rates == null) return;
             currentRates.clear();
             currentRates.addAll(rates);
-
-            // If we are restoring state, we might need to re-execute search if currency data changed.
-            // For simplicity here, we only ensure the list is loaded.
         });
 
-        // --- DUAL-FUNCTION BUTTON LISTENER ---
+        // Duel function button listener
         searchButton.setOnClickListener(v -> handleSearchClearClick());
 
         // Only hide if we are not restoring state, otherwise the restoration logic above handles visibility
@@ -121,20 +118,19 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    // --- START: STATE SAVING LOGIC ---
+    // To save instance state
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        // 1. Save the input query
+        // Save the input query
         outState.putString(KEY_QUERY, searchInput.getText().toString());
 
-        // 2. Save the search active status
+        // Save the search active status
         outState.putBoolean(KEY_ACTIVE, isSearchActive);
 
-        // 3. Save the current results displayed in the adapter
+        // Save the current results displayed in the adapter
         if (resultsAdapter != null && isSearchActive) {
-            // Need a copy of the list inside the adapter for saving
             ArrayList<CurrencyRate> resultsToSave = new ArrayList<>();
             for (int i = 0; i < resultsAdapter.getCount(); i++) {
                 resultsToSave.add(resultsAdapter.getItem(i));
@@ -142,18 +138,16 @@ public class SearchFragment extends Fragment {
             outState.putSerializable(KEY_RESULTS, resultsToSave);
         }
     }
-    // --- END: STATE SAVING LOGIC ---
 
     // Handles the combined Search/Clear logic
     private void handleSearchClearClick() {
         if (!isSearchActive) {
-            // STATE 1: SEARCH ACTION
             executeSearch();
 
-            // UI Update: Change to CLEAR button state
+            // Update button to CLEAR state
             searchButton.setText(R.string.clear_button_label);
 
-            // Optional: Change color (Requires R.color.clear_red to be defined)
+            // Change color to indicate clear action
             searchButton.setBackgroundTintList(
                     ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
 
@@ -162,7 +156,7 @@ public class SearchFragment extends Fragment {
             // Clear action
             clearSearch();
 
-            // Change back to SEARCH button state
+            // Change back to Search button state
             searchButton.setText(R.string.search_button_label);
 
             // Change color back to original
@@ -189,7 +183,6 @@ public class SearchFragment extends Fragment {
 
         // Filter currencies that match the query
         for (CurrencyRate rate : currentRates) {
-            // NOTE: CurrencyRate must implement Serializable for this to work correctly
             String combinedData = (rate.getTitle() + " " + rate.getCurrencyCode()).toLowerCase();
             if (combinedData.contains(query)) {
                 filteredList.add(rate);
@@ -200,7 +193,7 @@ public class SearchFragment extends Fragment {
         resultsAdapter.addAll(filteredList);
         resultsAdapter.notifyDataSetChanged();
 
-        // Show message if no results, otherwise display filtered list
+        // Show message if no results or display filtered list
         if (filteredList.isEmpty()) {
             noResultsText.setVisibility(View.VISIBLE);
         } else {

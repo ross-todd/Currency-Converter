@@ -21,18 +21,16 @@ import java.util.Locale;
 public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
 
     private static final int LIST_ITEM_LAYOUT = R.layout.item_currency;
-    // REMOVED: private static final int SPINNER_ITEM_LAYOUT = R.layout.item_currency_spinner;
 
     private final int listLayoutId;
-    // REMOVED: private int spinnerLayoutId = SPINNER_ITEM_LAYOUT;
 
+    // Constructor
     public CurrencyAdapter(@NonNull Context context, @NonNull List<CurrencyRate> rates) {
         super(context, LIST_ITEM_LAYOUT, rates);
         this.listLayoutId = LIST_ITEM_LAYOUT;
     }
 
-    // REMOVED: setDropDownViewResource method
-
+    // getView handles ListView items
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -40,8 +38,7 @@ public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
         return getCurrencyListItemView(position, convertView, parent);
     }
 
-    // REMOVED: getDropDownView method
-
+    // To hold views for each list item
     private static class CurrencyListItemHolder {
         ImageView flagImage;
         TextView titleText;
@@ -50,6 +47,7 @@ public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
         Button strengthButton;
     }
 
+    // Creates or reuses list item views
     private View getCurrencyListItemView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         CurrencyRate rate = getItem(position);
         CurrencyListItemHolder holder;
@@ -92,9 +90,7 @@ public class CurrencyAdapter extends ArrayAdapter<CurrencyRate> {
             );
             holder.strengthButton.setTextColor(Color.WHITE);
 
-            // Do NOT color the currency text anymore — removed the old code
-
-            // Click to navigate
+            // Click to navigate to currency calculator
             holder.strengthButton.setOnClickListener(v -> {
                 if (getContext() instanceof MainActivity) {
                     ((MainActivity) getContext()).navigateToConverter(rate);

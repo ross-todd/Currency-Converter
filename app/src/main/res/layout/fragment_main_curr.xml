@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:background="@android:color/white">
 
+    <!-- Listview to display main currencies -->
     <ListView
         android:id="@+id/main_currency_listview"
         android:layout_width="match_parent"

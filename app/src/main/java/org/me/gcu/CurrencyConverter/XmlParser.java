@@ -90,7 +90,7 @@ public class XmlParser {
                 eventType = xpp.next();
             }
 
-            // Add GBP base rate manually
+            // Add GBP base rate
             CurrencyRate gbpBaseRate = new CurrencyRate("Great British Pound", 1.0f, "GBP", lastBuildDate);
             ratesList.add(0, gbpBaseRate);
 

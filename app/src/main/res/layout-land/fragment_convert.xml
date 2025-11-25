@@ -11,6 +11,7 @@
     android:paddingEnd="16dp"
     android:gravity="center_vertical">
 
+    <!-- Page title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
         android:textColor="@android:color/black"
         android:layout_marginBottom="8dp" />
 
+    <!-- Amount input and currency code -->
     <LinearLayout
         android:layout_width="340dp"
         android:layout_height="wrap_content"
@@ -27,6 +29,7 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp">
 
+        <!-- EditText for entering amount -->
         <EditText
             android:id="@+id/editAmount"
             android:layout_width="0dp"
@@ -42,6 +45,7 @@
             android:padding="8dp"
             android:textSize="16sp" />
 
+        <!-- Text showing selected from currency code -->
         <TextView
             android:id="@+id/textCurrencyFrom"
             android:layout_width="wrap_content"
@@ -53,6 +57,7 @@
             android:textSize="16sp" />
     </LinearLayout>
 
+    <!-- From and To currency selection row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,6 +65,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
+        <!-- From currency selection container -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -67,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp">
 
+            <!-- From label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,6 +81,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
+            <!-- From currency display with flag -->
             <LinearLayout
                 android:id="@+id/containerFromCurrency"
                 android:layout_width="match_parent"
@@ -103,6 +111,7 @@
 
         </LinearLayout>
 
+        <!-- Swap currencies button -->
         <ImageView
             android:id="@+id/btnSwap"
             android:layout_width="48dp"
@@ -116,6 +125,7 @@
             android:layout_marginEnd="8dp"
             android:paddingTop="16dp" />
 
+        <!-- To currency selection container -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -123,6 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp">
 
+            <!-- To label -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -130,6 +141,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp" />
 
+            <!-- To currency display with flag -->
             <LinearLayout
                 android:id="@+id/containerToCurrency"
                 android:layout_width="match_parent"
@@ -160,12 +172,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <!-- Conversion button and result display row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="top">
 
+        <!-- Convert button container -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -174,6 +188,7 @@
             android:layout_marginEnd="8dp"
             android:gravity="center_horizontal">
 
+            <!-- Convert button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConvert"
                 android:layout_width="120dp"
@@ -189,12 +204,14 @@
 
         </LinearLayout>
 
+        <!-- Spacer between button and result -->
         <Space
             android:layout_width="64dp"
             android:layout_height="1dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"/>
 
+        <!-- Result display container -->
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -202,6 +219,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp">
 
+            <!-- Result label and currency -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -227,6 +245,7 @@
                     android:textSize="16sp"/>
             </LinearLayout>
 
+            <!-- Converted amount display box -->
             <TextView
                 android:id="@+id/editConvertedAmount"
                 android:layout_width="match_parent"

@@ -23,6 +23,7 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    // Called after the view is created, sets up child fragments and fetches data
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -39,10 +40,11 @@ public class HomeFragment extends Fragment {
             transaction.commit();
         }
 
-        // Fetch data (if already loaded, callback runs immediately)
+        // Fetch data and update UI when ready
         viewModel.fetchData(this::updateUI);
     }
 
+    // Updates the last update time display
     private void updateUI() {
         String lastUpdate = viewModel.getLastBuildTime();
         if (lastUpdate != null && !lastUpdate.isEmpty()) {

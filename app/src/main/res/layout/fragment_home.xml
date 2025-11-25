@@ -8,6 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context=".HomeFragment">
 
+    <!-- Inner content container -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +18,7 @@
         android:paddingBottom="16dp"
         tools:ignore="ExtraText">
 
+        <!-- Last update time -->
         <TextView
             android:id="@+id/updateTimeTextView"
             android:layout_width="match_parent"
@@ -28,6 +30,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp" />
 
+        <!-- Currency search label -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,6 +42,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp" />
 
+        <!-- Currency search fragment container -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_search"
             android:layout_width="match_parent"
@@ -46,8 +50,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            tools:ignore="UnknownId,MissingClass" />
+            tools:ignore="UnknownId,MissingClass"
+            android:name="org.me.gcu.CurrencyConverter.SearchFragment" />
 
+        <!-- Main currency exchange rates label -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,6 +65,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="12dp" />
 
+        <!-- Main currency exchange fragment container -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_main_curr"
             android:layout_width="match_parent"
@@ -66,8 +73,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            tools:ignore="UnknownId,MissingClass" />
+            tools:ignore="UnknownId,MissingClass"
+            android:name="org.me.gcu.CurrencyConverter.MainCurrFragment" />
 
+        <!-- All currency exchange rates label -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,6 +89,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp" />
 
+        <!-- All currency exchange fragment container -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_all_curr"
             android:layout_width="match_parent"
@@ -87,7 +97,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            tools:ignore="UnknownId,MissingClass" />
+            tools:ignore="UnknownId,MissingClass"
+            android:name="org.me.gcu.CurrencyConverter.AllCurrFragment" />
 
     </LinearLayout>
 </LinearLayout>
