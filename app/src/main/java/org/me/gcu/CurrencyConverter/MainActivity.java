@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private static final int FRAGMENT_CONTAINER_ID = R.id.main_container;
 
+    // Activity creation and initial setup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
         CurrencyViewModel viewModel = new ViewModelProvider(this).get(CurrencyViewModel.class);
 
         if (savedInstanceState == null) {
-            // First run: Show ProgressBar
+            // Show progress bar fragment
             showFragment(new ProgressBarFragment(), false);
         } else {
-            // ⭐ FIX 1: If restoring state (i.e., after rotation), update visibility immediately.
+            // Update back button visibility on restoration
             updateBackButtonVisibility();
         }
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     finish();
                 }
-                // Visibility is updated after a standard back press
+                // Visibility is updated after a back press
                 updateBackButtonVisibility();
             }
         });
@@ -55,14 +56,12 @@ public class MainActivity extends AppCompatActivity {
         viewModel.fetchData(() -> {
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(FRAGMENT_CONTAINER_ID);
             if (currentFragment instanceof ProgressBarFragment) {
-                // This branch is only executed once, after initial data fetch.
                 showFragment(new HomeFragment(), false);
             }
         });
     }
 
-    // ⭐ FIX 2: Override onResume to update visibility in case of fragment changes
-    // outside of your control, ensuring consistency after restoration.
+    // Update back button visibility when activity resumes
     @Override
     protected void onResume() {
         super.onResume();
@@ -101,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         if (btnBack != null) btnBack.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    // The back button should be visible IF there is anything in the back stack.
+    // The back button should be visible if there is anything in the back stack.
     public void updateBackButtonVisibility() {
         boolean isRootScreen = getSupportFragmentManager().getBackStackEntryCount() == 0;
         setBackButtonVisible(!isRootScreen);

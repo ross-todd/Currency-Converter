@@ -44,6 +44,7 @@
     // item_currency
     <string name="base_currency_label">1 GBP =\u0020</string>
     <string name="flag_description">flag description </string>
+    <string name="strength_button_description">Strength indicator</string>
 
     // item_currency_spinner
     <string name="currency_flag_description">Currency Flag</string>

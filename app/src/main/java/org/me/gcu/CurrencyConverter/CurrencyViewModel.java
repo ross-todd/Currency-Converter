@@ -82,7 +82,8 @@ public class CurrencyViewModel extends ViewModel {
 
             dataLoaded = true;
 
-            if (callback != null) { // run callback on main thread
+            // run callback on main thread
+            if (callback != null) {
                 android.os.Handler mainHandler = new android.os.Handler(android.os.Looper.getMainLooper());
                 mainHandler.post(callback);
             }

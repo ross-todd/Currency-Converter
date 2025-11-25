@@ -6,9 +6,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    tools:ignore="VisualLintBounds">
 
-    <!-- Search input and button -->
+    <!-- Search input and button row-->
     <LinearLayout
         android:id="@+id/search_ui_container"
         android:layout_width="match_parent"
@@ -17,6 +18,7 @@
         android:gravity="center_vertical"
         android:paddingBottom="8dp">
 
+        <!-- Search input field -->
         <EditText
             android:id="@+id/search_input"
             android:layout_width="0dp"
@@ -33,10 +35,10 @@
             android:textCursorDrawable="@null"
             tools:ignore="VisualLintTextFieldSize" />
 
+        <!-- Search button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/search_button"
             android:text="@string/search_button_label"
-
             android:textSize="16sp"
             android:textStyle="bold"
             android:textColor="@color/white"
@@ -52,7 +54,7 @@
             android:insetBottom="0dp"/>
     </LinearLayout>
 
-    <!-- Results container -->
+    <!-- Results list and empty message -->
     <LinearLayout
         android:id="@+id/results_ui_container"
         android:layout_width="match_parent"
@@ -60,6 +62,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
+        <!-- Search results ListView -->
         <ListView
             android:id="@+id/result_display"
             android:layout_width="match_parent"
@@ -68,6 +71,7 @@
             android:dividerHeight="0dp"
             android:nestedScrollingEnabled="true" />
 
+        <!-- No results message -->
         <TextView
             android:id="@+id/no_results_text"
             android:layout_width="match_parent"

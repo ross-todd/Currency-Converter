@@ -21,8 +21,6 @@ import java.util.Locale;
 public class ConvertFragment extends Fragment {
 
     private static final String ARG_INITIAL_RATE = "initialRate";
-
-    // Key for saving and restoring the conversion result
     private static final String KEY_CONVERTED_AMOUNT = "convertedAmount";
 
     private CurrencyViewModel currencyViewModel;
@@ -31,15 +29,14 @@ public class ConvertFragment extends Fragment {
     private TextView editConvertedAmount;
     private Button btnConvert;
     private ImageView btnSwap;
-
     private TextView textCurrencyFrom, textCurrencyTo;
     private ImageView imageFlagFrom, imageFlagTo;
     private TextView textCurrencyDisplayFrom, textCurrencyDisplayTo;
-
     private CurrencyRate currentFromRate;
     private CurrencyRate currentToRate;
     private CurrencyRate initialRate;
 
+    // To create new instance with optional initial rate
     public static ConvertFragment newInstance(CurrencyRate rate) {
         ConvertFragment fragment = new ConvertFragment();
         Bundle args = new Bundle();
@@ -48,6 +45,7 @@ public class ConvertFragment extends Fragment {
         return fragment;
     }
 
+    // Called when fragment is created
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +55,7 @@ public class ConvertFragment extends Fragment {
         currencyViewModel = new ViewModelProvider(requireActivity()).get(CurrencyViewModel.class);
     }
 
+    // Called to create the fragment's UI layout
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -68,8 +67,6 @@ public class ConvertFragment extends Fragment {
         editConvertedAmount = view.findViewById(R.id.editConvertedAmount);
         btnConvert = view.findViewById(R.id.btnConvert);
         btnSwap = view.findViewById(R.id.btnSwap);
-
-        // Fixed Display View Bindings
         textCurrencyFrom = view.findViewById(R.id.textCurrencyFrom);
         textCurrencyTo = view.findViewById(R.id.textCurrencyTo);
         imageFlagFrom = view.findViewById(R.id.imageFlagFrom);
@@ -88,17 +85,16 @@ public class ConvertFragment extends Fragment {
         // Check if we have a saved state
         final boolean isRestoringState = savedInstanceState != null;
 
-        // START: STATE RESTORATION LOGIC
         if (isRestoringState) {
             String savedResult = savedInstanceState.getString(KEY_CONVERTED_AMOUNT);
 
-            // Restore the converted amount (input field is saved automatically by Android)
+            // Restore the converted amount
             if (savedResult != null) {
                 editConvertedAmount.setText(savedResult);
             }
         }
-        // END: STATE RESTORATION LOGIC
 
+        // Fetch currency data and setup UI
         currencyViewModel.fetchData(() -> {
             if (isAdded()) {
                 List<CurrencyRate> currencyList = currencyViewModel.getCurrencyRates();
@@ -117,7 +113,7 @@ public class ConvertFragment extends Fragment {
         return view;
     }
 
-    // START: STATE SAVING LOGIC ADDED
+    // To save instance state
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -127,8 +123,8 @@ public class ConvertFragment extends Fragment {
             outState.putString(KEY_CONVERTED_AMOUNT, editConvertedAmount.getText().toString());
         }
     }
-    // END: STATE SAVING LOGIC ADDED
 
+    // To update visibility of back button
     @Override
     public void onResume() {
         super.onResume();
@@ -137,7 +133,7 @@ public class ConvertFragment extends Fragment {
         }
     }
 
-    // New method signature accepts the restoration flag
+    //  Setup initial currency display
     private void setupCurrencyDisplay(boolean isRestoringState) {
         currentFromRate = currencyViewModel.getCurrencyRateByCode("GBP");
 
@@ -150,49 +146,40 @@ public class ConvertFragment extends Fragment {
         updateCurrencyUI(currentFromRate, currentToRate, isRestoringState);
     }
 
-    /**
-     * Helper method to update all UI views based on the current state variables.
-     * New signature accepts isRestoringState to prevent clearing the converted result.
-     */
+    // Update the UI elements for selected currencies
     private void updateCurrencyUI(CurrencyRate fromRate, CurrencyRate toRate, boolean isRestoringState) {
 
-        // Update 'From' side display
+        // Update From side display
         if (fromRate != null) {
             textCurrencyFrom.setText(fromRate.getCurrencyCode());
-            // FIX 1: Using CurrencyFlagMap instead of FlagUtility
             imageFlagFrom.setImageResource(CurrencyFlagMap.getFlagResource(fromRate.getCurrencyCode()));
-
-            // Assuming getCurrencyName() is implemented or you changed it to getTitle()
             textCurrencyDisplayFrom.setText(String.format(
                     "%s - %s", fromRate.getCurrencyCode(), fromRate.getCurrencyName()
             ));
         }
 
-        // Update 'To' side display
+        // Update To side display
         if (toRate != null) {
             textCurrencyTo.setText(toRate.getCurrencyCode());
-            // FIX 2: Using CurrencyFlagMap instead of FlagUtility
             imageFlagTo.setImageResource(CurrencyFlagMap.getFlagResource(toRate.getCurrencyCode()));
-
-            // Assuming getCurrencyName() is implemented or you changed it to getTitle()
             textCurrencyDisplayTo.setText(String.format(
                     "%s - %s", toRate.getCurrencyCode(), toRate.getCurrencyName()
             ));
         }
 
-        // FIX: ONLY clear the result if we are NOT restoring state.
         // If restoring state, the text was set in onCreateView.
         if (!isRestoringState) {
             editConvertedAmount.setText("");
         }
     }
 
+    // Swap the selected currencies
     private void swapCurrencies() {
         CurrencyRate tempRate = currentFromRate;
         currentFromRate = currentToRate;
         currentToRate = tempRate;
 
-        // Since swap calls updateCurrencyUI, we must pass the false flag here to ensure it clears/updates.
+        // Update UI after swap
         updateCurrencyUI(currentFromRate, currentToRate, false);
 
         if (!editAmount.getText().toString().trim().isEmpty()) {
@@ -202,6 +189,7 @@ public class ConvertFragment extends Fragment {
         Toast.makeText(getContext(), "Currencies Swapped!", Toast.LENGTH_SHORT).show();
     }
 
+    // Perform the currency conversion calculation
     private void performConversion() {
         String amountText = editAmount.getText().toString().trim();
         if (amountText.isEmpty()) {

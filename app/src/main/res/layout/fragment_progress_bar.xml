@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <!-- Fragment to display progress bar on startup -->
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

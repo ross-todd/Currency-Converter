@@ -9,7 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context=".HomeFragment">
 
-    <!-- Left Column: Search + Main Currencies -->
+    <!-- Left Panel: Search input and main currency rates -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
-        <!-- Last Updated TextView -->
+        <!-- Display last update time -->
         <TextView
             android:id="@+id/updateTimeTextView"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:textStyle="italic"
             android:paddingBottom="4dp" />
 
-        <!-- Search Section -->
+        <!-- Search label -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,6 +38,7 @@
             android:paddingBottom="4dp"
             tools:ignore="RtlSymmetry" />
 
+        <!-- Container for search fragment -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_search"
             android:layout_width="match_parent"
@@ -45,7 +46,7 @@
             android:layout_marginBottom="8dp"
             tools:ignore="MissingClass" />
 
-        <!-- Main Currencies Section -->
+        <!-- Main currency rates label -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,6 +55,7 @@
             android:textStyle="bold"
             android:paddingBottom="4dp" />
 
+        <!-- Container for main currencies fragment -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_main_curr"
             android:layout_width="match_parent"
@@ -63,7 +65,7 @@
 
     </LinearLayout>
 
-    <!-- Right Column: All Currencies -->
+    <!-- Right Panel: All currency exchange rates -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="0dp"
@@ -71,6 +73,7 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
+        <!-- All currencies label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +82,7 @@
             android:textStyle="bold"
             android:paddingBottom="4dp" />
 
+        <!-- Container for all currencies fragment -->
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container_all_curr"
             android:layout_width="match_parent"
