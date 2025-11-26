@@ -1,3 +1,9 @@
+//
+// Name                 Ross Todd
+// Student ID           S1933591
+// Programme of Study   BSc Software Development - Mobile Platform Development
+//
+
 package org.me.gcu.CurrencyConverter;
 
 import android.os.Bundle;
