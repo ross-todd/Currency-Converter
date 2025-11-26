@@ -41,6 +41,7 @@ public class SearchFragment extends Fragment {
 
     private boolean isSearchActive = false;
 
+    // Inflates the SearchFragment layout
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -107,6 +108,7 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    // Saves search state during rotation
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -122,6 +124,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    // Handles whether the button performs search or clear functions
     private void handleSearchClearClick() {
         if (!isSearchActive) {
             executeSearch();
@@ -134,6 +137,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    // Performs the currency search using the query and alias mapping
     private void executeSearch() {
         String query = searchInput.getText().toString().trim();
         List<CurrencyRate> filteredList = new ArrayList<>();
@@ -177,6 +181,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    // Clears search results and resets the UI
     private void clearSearch() {
         searchInput.setText("");
         resultsAdapter.clear();
@@ -186,7 +191,7 @@ public class SearchFragment extends Fragment {
         noResultsText.setVisibility(View.GONE);
     }
 
-    // Toggle visibility between results list and "No results" message
+    // Shows results list or message to user based on search outcome
     private void toggleResultsVisibility(boolean hasResults) {
         if (hasResults) {
             searchResultsListView.setVisibility(View.VISIBLE);
@@ -212,6 +217,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    // Clears references to avoid memory leaks
     @Override
     public void onDestroyView() {
         super.onDestroyView();

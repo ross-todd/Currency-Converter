@@ -29,11 +29,14 @@ public class HomeFragment extends Fragment {
     private static final String INPUT_DATE_FORMAT = "EEE MMM dd yyyy HH:mm:ss zzz";
     private static final String OUTPUT_DATE_FORMAT = "MMM dd, yyyy h:mm a (zzz)";
 
+    // Inflates the layout for the HomeFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+
+    // Initialises UI elements, loads child fragments, and fetches currency data
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -53,12 +56,14 @@ public class HomeFragment extends Fragment {
         readAndUpdateTimeFromPrefs();
     }
 
+    // Reloads the saved last updated time whenever the fragment resumes
     @Override
     public void onResume() {
         super.onResume();
         readAndUpdateTimeFromPrefs();
     }
 
+    // Reads saved time from SharedPreferences and updates the TextView
     private void readAndUpdateTimeFromPrefs() {
         if (getContext() == null) return;
 
@@ -76,6 +81,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    // Converts the raw date string from the feed into a formatted display string
     private String formatDateTimeString(String rawDateString) {
         if (rawDateString == null || rawDateString.isEmpty()) return null;
 
@@ -93,6 +99,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    // Updates the UI with the latest build time provided by the ViewModel
     private void updateUI() {
         String lastUpdate = viewModel.getLastBuildTime();
         String formattedTime = formatDateTimeString(lastUpdate);
