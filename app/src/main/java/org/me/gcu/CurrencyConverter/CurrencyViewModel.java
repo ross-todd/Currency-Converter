@@ -1,10 +1,13 @@
 package org.me.gcu.CurrencyConverter;
 
+import android.app.Application; // CHANGED: Import Application
+import android.content.Context; // ADDED
+import android.content.SharedPreferences; // ADDED
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.AndroidViewModel; // CHANGED: Extend AndroidViewModel
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -14,12 +17,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CurrencyViewModel extends ViewModel {
+
+public class CurrencyViewModel extends AndroidViewModel {
 
     private List<CurrencyRate> currencyRates = new ArrayList<>();
     private String lastBuildTime;
     private final XmlParser xmlParser = new XmlParser();
     private boolean dataLoaded = false;
+
+    // Constructor to initialize ViewModel with Application context
+    public CurrencyViewModel(Application application) {
+        super(application);
+    }
 
     // Getters
     public List<CurrencyRate> getCurrencyRates() {
@@ -94,6 +103,14 @@ public class CurrencyViewModel extends ViewModel {
             currencyRates = parsedRates;
         } else {
             currencyRates = Collections.emptyList();
+        }
+
+        // Save the last build time to SharedPreferences
+        if (lastBuildTime != null && !lastBuildTime.isEmpty()) {
+            SharedPreferences prefs = getApplication().getSharedPreferences("CurrencyPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("LastUpdatedTime", lastBuildTime);
+            editor.apply();
         }
     }
 }

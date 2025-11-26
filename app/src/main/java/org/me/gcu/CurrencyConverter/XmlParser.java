@@ -82,6 +82,10 @@ public class XmlParser {
                         if ("item".equalsIgnoreCase(tagName) && currentRate != null) {
                             if (currentRate.getRate() > 0.0f) {
                                 ratesList.add(currentRate);
+                                // ADDED: Log the currency rate details here
+                                Log.i(TAG, "Parsed Currency: Code=" + currentRate.getCurrencyCode() +
+                                        ", Title=" + currentRate.getTitle() +
+                                        ", Rate=" + currentRate.getRate());
                             }
                             currentRate = null;
                         }
@@ -93,6 +97,11 @@ public class XmlParser {
             // Add GBP base rate
             CurrencyRate gbpBaseRate = new CurrencyRate("Great British Pound", 1.0f, "GBP", lastBuildDate);
             ratesList.add(0, gbpBaseRate);
+
+            // Log the GBP base rate addition
+            Log.i(TAG, "Added Base Currency: Code=" + gbpBaseRate.getCurrencyCode() +
+                    ", Title=" + gbpBaseRate.getTitle() +
+                    ", Rate=" + gbpBaseRate.getRate());
 
         } catch (Exception e) {
             Log.e(TAG, "XML Parsing Error: " + e.getMessage(), e);

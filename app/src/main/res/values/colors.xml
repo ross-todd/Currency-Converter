@@ -20,6 +20,8 @@
 
     <color name="main_button_blue">#000080</color>
 
+    <color name="search_button_red">#FF3B30</color>
+
     <color name="rate_very_strong">#1976D2</color>
 
     <color name="rate_strong">#1B5E20</color>

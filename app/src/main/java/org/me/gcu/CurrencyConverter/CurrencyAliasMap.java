@@ -69,6 +69,7 @@ public class CurrencyAliasMap {
         addAliases(map, "HKD", "HKD", "Hong Kong");
         addAliases(map, "HUF", "HUF", "Hungary");
         addAliases(map, "ISK", "ISK", "Iceland");
+        addAliases(map, "INR", "INR", "India", "Indian Rupee");
         addAliases(map, "IDR", "IDR", "Indonesia");
         addAliases(map, "IRR", "IRR", "Iran");
         addAliases(map, "IQD", "IQD", "Iraq");
@@ -82,6 +83,8 @@ public class CurrencyAliasMap {
         addAliases(map, "KPW", "KPW", "North Korea");
         addAliases(map, "LAK", "LAK", "Laos");
         addAliases(map, "LBP", "LBP", "Lebanon");
+        addAliases(map, "LTL", "LTL", "Lithuania");
+        addAliases(map, "LVL", "LVL", "Latvia");
         addAliases(map, "LKR", "LKR", "Sri Lanka");
         addAliases(map, "LRD", "LRD", "Liberia");
         addAliases(map, "LSL", "LSL", "Lesotho");
@@ -143,6 +146,10 @@ public class CurrencyAliasMap {
         addAliases(map, "VUV", "VUV", "Vanuatu");
         addAliases(map, "WST", "WST", "Samoa");
         addAliases(map, "YER", "YER", "Yemen");
+        addAliases(map, "ZWD", "ZWD", "Zimbabwe");
+        addAliases(map, "ZAR", "ZAR", "South Africa");
+        addAliases(map, "ZMK", "ZMK", "Zambia");
+        addAliases(map, "ZMW", "ZMW", "Zambia");
 
         ALIAS_TO_ISO = Collections.unmodifiableMap(map);
     }

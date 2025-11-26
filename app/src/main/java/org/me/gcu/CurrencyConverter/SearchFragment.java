@@ -10,11 +10,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -37,12 +39,12 @@ public class SearchFragment extends Fragment {
     private CurrencyViewModel viewModel;
     private final List<CurrencyRate> currentRates = new ArrayList<>();
 
-    // Search button becomes clear button after search
     private boolean isSearchActive = false;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         searchInput = view.findViewById(R.id.search_input);
@@ -56,6 +58,18 @@ public class SearchFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(CurrencyViewModel.class);
 
+        searchInput.addTextChangedListener(new android.text.TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchButton.setEnabled(!s.toString().trim().isEmpty());
+            }
+            @Override public void afterTextChanged(android.text.Editable s) {}
+        });
+
+        searchButton.setEnabled(false);
+
+        // Restore state on rotation
         if (savedInstanceState != null) {
             isSearchActive = savedInstanceState.getBoolean(KEY_ACTIVE, false);
             String savedQuery = savedInstanceState.getString(KEY_QUERY, "");
@@ -67,21 +81,15 @@ public class SearchFragment extends Fragment {
             if (isSearchActive && savedResults != null) {
                 resultsAdapter.addAll(savedResults);
                 resultsUiContainer.setVisibility(View.VISIBLE);
-                noResultsText.setVisibility(savedResults.isEmpty() ? View.VISIBLE : View.GONE);
-
-                searchButton.setText(R.string.clear_button_label);
-                searchButton.setBackgroundTintList(
-                        ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
+                toggleResultsVisibility(!savedResults.isEmpty());
+                setButtonState(true);
             } else {
-                searchButton.setText(R.string.search_button_label);
-                searchButton.setBackgroundTintList(
-                        ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
-                resultsUiContainer.setVisibility(View.GONE);
-                noResultsText.setVisibility(View.GONE);
+                setButtonState(false);
             }
+        } else {
+            setButtonState(false);
         }
 
-        // Fetch currency data
         viewModel.fetchData(() -> {
             if (!isAdded()) return;
             List<CurrencyRate> rates = viewModel.getCurrencyRates();
@@ -90,7 +98,6 @@ public class SearchFragment extends Fragment {
             currentRates.addAll(rates);
         });
 
-        // Duel function button listener
         searchButton.setOnClickListener(v -> handleSearchClearClick());
 
         if (savedInstanceState == null) {
@@ -118,20 +125,15 @@ public class SearchFragment extends Fragment {
     private void handleSearchClearClick() {
         if (!isSearchActive) {
             executeSearch();
-            searchButton.setText(R.string.clear_button_label);
-            searchButton.setBackgroundTintList(
-                    ContextCompat.getColorStateList(requireContext(), R.color.clear_red));
             isSearchActive = true;
+            setButtonState(true);
         } else {
             clearSearch();
-            searchButton.setText(R.string.search_button_label);
-            searchButton.setBackgroundTintList(
-                    ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue));
             isSearchActive = false;
+            setButtonState(false);
         }
     }
 
-    // --- SEARCH FUNCTION INCORPORATING ALIAS MAP ---
     private void executeSearch() {
         String query = searchInput.getText().toString().trim();
         List<CurrencyRate> filteredList = new ArrayList<>();
@@ -142,7 +144,6 @@ public class SearchFragment extends Fragment {
             return;
         }
 
-        // Look for alias match (case-insensitive)
         String matchedIso = null;
         for (String alias : aliasMap.keySet()) {
             if (alias.equalsIgnoreCase(query)) {
@@ -151,7 +152,6 @@ public class SearchFragment extends Fragment {
             }
         }
 
-        // If a match is found, filter the current rates
         if (matchedIso != null) {
             for (CurrencyRate rate : currentRates) {
                 if (rate.getCurrencyCode().equalsIgnoreCase(matchedIso)) {
@@ -160,12 +160,13 @@ public class SearchFragment extends Fragment {
             }
         }
 
-        // Update adapter & UI
         resultsAdapter.clear();
         resultsAdapter.addAll(filteredList);
         resultsAdapter.notifyDataSetChanged();
 
-        noResultsText.setVisibility(filteredList.isEmpty() ? View.VISIBLE : View.GONE);
+        // Toggle results vs "No results" message in the same container
+        toggleResultsVisibility(!filteredList.isEmpty());
+
         resultsUiContainer.setVisibility(View.VISIBLE);
 
         // Hide keyboard
@@ -180,8 +181,35 @@ public class SearchFragment extends Fragment {
         searchInput.setText("");
         resultsAdapter.clear();
         resultsAdapter.notifyDataSetChanged();
+
         resultsUiContainer.setVisibility(View.GONE);
         noResultsText.setVisibility(View.GONE);
+    }
+
+    // Toggle visibility between results list and "No results" message
+    private void toggleResultsVisibility(boolean hasResults) {
+        if (hasResults) {
+            searchResultsListView.setVisibility(View.VISIBLE);
+            noResultsText.setVisibility(View.GONE);
+        } else {
+            searchResultsListView.setVisibility(View.GONE);
+            noResultsText.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // Update button text and color based on state
+    private void setButtonState(boolean searchActive) {
+        if (searchActive) {
+            searchButton.setText(R.string.clear_button_label);
+            searchButton.setBackgroundTintList(
+                    ContextCompat.getColorStateList(requireContext(), R.color.search_button_red)
+            );
+        } else {
+            searchButton.setText(R.string.search_button_label);
+            searchButton.setBackgroundTintList(
+                    ContextCompat.getColorStateList(requireContext(), R.color.main_button_blue)
+            );
+        }
     }
 
     @Override
